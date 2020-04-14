@@ -1,0 +1,30 @@
+{
+    "AWSTemplateFormatVersion" : "2010-09-09",
+  
+    "Description" : "AWS CloudFormation sample template to show how to create an S3 bucket configured for website accessing with a deletion policy of retain on delete.",
+  
+    "Resources" : {
+      "myPhotosAndVideosGallery" : {
+        "Type" : "AWS::S3::Bucket",
+        "Properties" : {
+          "AccessControl" : "PublicRead",
+          "WebsiteConfiguration" : {
+            "IndexDocument" : "index.html",
+            "ErrorDocument" : "error.html"
+           }
+        },
+        "DeletionPolicy" : "Retain"
+      }
+    },
+  
+    "Outputs" : {
+      "WebsiteURL" : {
+        "Value" : { "Fn::GetAtt" : [ "srivaniPhotosAndVideosGallery", "WebsiteURL" ] },
+        "Description" : "URL for the website hosted on S3."
+      },
+      "S3BucketSecureURL" : {
+        "Value" : { "Fn::Join" : [ "", [ "https://", { "Fn::GetAtt" : [ "srivaniPhotosAndVideosGallery", "DomainName" ] } ] ] },
+        "Description" : "Name of S3 bucket to hold the website content."
+      }
+    }
+  }
